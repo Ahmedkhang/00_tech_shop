@@ -4,11 +4,13 @@ import { client } from '@/sanity/lib/client';
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image';
-import { Heart, ShoppingCart, Star, Eye, Filter, Grid3X3, List, Search } from 'lucide-react';
+import { Heart, ShoppingCart, Star, Eye, Grid3X3, List, Search } from 'lucide-react';
 import { Product_types } from '../../../types';
 import Link from 'next/link';
+import { useCart } from '@/context/cartcontext';
 
 const Products = () => {
+    const { addToCart } = useCart()
     const [products, setProducts] = useState<Product_types[]>([])
     const [loading, setLoading] = useState(true)
     const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -238,7 +240,7 @@ const Products = () => {
                                     </div></Link>
 
                                     {/* Add to Cart Button */}
-                                    <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                    <button onClick={() => addToCart(product)} className="w-full bg-blue-600 cursor-pointer hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                         <ShoppingCart className="w-5 h-5" />
                                         Add to Cart
                                     </button>

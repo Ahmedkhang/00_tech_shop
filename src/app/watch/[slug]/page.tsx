@@ -38,10 +38,16 @@ import {
     ChevronLeft,
     ChevronRight
 } from "lucide-react";
+import Link from "next/link";
 
 interface ProductPageProps {
     params: { slug: string }
 }
+type WatchSlug = {
+  slug: {
+    current: string;
+  };
+};
 
 async function getProduct(slug: string): Promise<Product_types | null> {
     return client.fetch(groq`*[_type == "laptops" && slug.current == $slug][0]{
@@ -66,8 +72,8 @@ async function getProduct(slug: string): Promise<Product_types | null> {
 
 // Generate static params for better performance
 export async function generateStaticParams() {
-    const laptops = await client.fetch(groq`*[_type == "laptops"]{ slug }`);
-    return laptops.map((laptop: any) => ({
+    const watch:WatchSlug[] = await client.fetch(groq`*[_type == "laptops"]{ slug }`);
+    return watch.map((laptop: any) => ({
         slug: laptop.slug.current,
     }));
 }
@@ -85,9 +91,9 @@ export default async function DynamicLaptops({ params }: ProductPageProps) {
             <div className="container mx-auto px-4 py-8">
                 {/* Breadcrumb */}
                 <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-8">
-                    <a href="/" className="hover:text-blue-600 transition-colors">Home</a>
+                    <Link href="/" className="hover:text-blue-600 transition-colors">Home</Link>
                     <span>/</span>
-                    <a href="/laptops" className="hover:text-blue-600 transition-colors">Laptops</a>
+                    <Link href="/laptops" className="hover:text-blue-600 transition-colors">Laptops</Link>
                     <span>/</span>
                     <span className="text-gray-900 font-medium">{laptop.title}</span>
                 </nav>

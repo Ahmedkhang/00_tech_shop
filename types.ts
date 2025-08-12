@@ -13,3 +13,16 @@ export interface Product_types {
     category:string
 
 }
+
+export interface Banner {
+  id: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  buttonText: string;
+  buttonLink: string;
+  bgGradient: string;
+  icon: React.ReactNode;
+  accent: string;
+}
+

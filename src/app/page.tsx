@@ -1,11 +1,12 @@
 'use client'
-import Footer from '@/components/Footer';
-import Navbar from '@/components/Navbar'
+import Laptop from '@/components/Laptop';
+import Slider from '@/components/Slider'
 export default function Home() {
   return (
     <>
-     <Navbar />
-     <Footer />
+     <Slider />
+     <Laptop />
+
     </>
   );
 }

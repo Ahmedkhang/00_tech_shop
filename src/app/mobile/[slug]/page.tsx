@@ -25,6 +25,7 @@ import { Product_types } from "../../../../types";
 import { groq } from "next-sanity";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+// import { useCart } from "@/context/cartcontext";
 
 interface ProductPageProps {
   params: { slug: string };
@@ -49,6 +50,7 @@ async function getProducts(slug: string): Promise<Product_types | null> {
 export default async function DynamicLaptops({ params }: ProductPageProps) {
   const { slug } = params;
   const mobiles = await getProducts(slug);
+  // const { addToCart } = useCart();
 
   if (!mobiles) {
     return (
@@ -108,10 +110,10 @@ export default async function DynamicLaptops({ params }: ProductPageProps) {
                 ${mobiles.price.toFixed(2)}
               </p>
               <div className="space-y-4">
-                <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
+                <button  className="w-full cursor-pointer bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors">
                   Add to Cart
                 </button>
-                <button className="w-full bg-gray-200 text-gray-800 py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors">
+                <button className="w-full bg-gray-200 cursor-pointer text-gray-800 py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors">
                   Add to Wishlist
                 </button>
               </div>
