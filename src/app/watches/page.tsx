@@ -4,7 +4,7 @@ import { client } from '@/sanity/lib/client';
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image';
-import { Heart, ShoppingCart, Star, Eye, Filter, Grid3X3, List, Search } from 'lucide-react';
+import { Heart, ShoppingCart, Star, Eye, Grid3X3, List, Search } from 'lucide-react';
 import { Product_types } from '../../../types';
 
 const Products = () => {

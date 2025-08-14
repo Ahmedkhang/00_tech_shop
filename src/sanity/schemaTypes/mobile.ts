@@ -1,6 +1,6 @@
 import type { Rule } from 'sanity';
 
-export default {
+const MobileSchema =  {
   name: 'mobiles',
   title: 'Mobile Phones',
   type: 'document',
@@ -26,3 +26,4 @@ export default {
     { name: 'availabilityStatus', title: 'Availability Status', type: 'string', options: { list: ['In Stock', 'Out of Stock', 'Preorder'] } }
   ]
 }
+export default MobileSchema

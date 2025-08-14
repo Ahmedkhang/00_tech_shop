@@ -3,7 +3,7 @@ import { useCart } from '@/context/cartcontext'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
-const Checkout = async () => {
+const Checkout = () => {
   const {cart, clearCart} = useCart()
   const router = useRouter() 
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic"; // prevents static rendering
 import { countLaptops, countMobiles, countProducts } from "@/sanity/lib/client"
 export default async function Dashboard(){
   const products : number = await countProducts() 

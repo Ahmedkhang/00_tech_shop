@@ -1,7 +1,7 @@
 'use client'
 import { createContext } from "react";
 import { Product_types } from "../../types";
-import { Children, ReactNode, useContext, useEffect, useState } from "react";
+import {  ReactNode, useContext, useEffect, useState } from "react";
 // import Error from "next/error";
 
 type CartItem = Product_types & {quantity:number}

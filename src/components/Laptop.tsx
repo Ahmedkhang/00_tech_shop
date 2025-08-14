@@ -1,12 +1,9 @@
 'use client';
 import { client } from '@/sanity/lib/client';
-
 import { useEffect, useState } from 'react'
-// import { useRouter } from 'next/navi'
 import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image';
-import { Heart, ShoppingCart, Star, Eye, Grid3X3, List, Search } from 'lucide-react';
-
+import { Heart, ShoppingCart, Star, Eye, Search, Grid3X3, List } from 'lucide-react';
 import Link from 'next/link';
 import { useCart } from '@/context/cartcontext';
 import { Product_types } from '../../types';
@@ -102,10 +99,10 @@ const Products = () => {
                 </div>
 
                 {/* Filters and Controls */}
-                {/* <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 mb-8">
+                 <div className="bg-white rounded-xl shadow-sm p-4 md:p-6 mb-8">
                     <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
                         {/* Search Bar */}
-                        {/* <div className="relative flex-1 max-w-md">
+                         <div className="relative flex-1 max-w-md">
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                             <input
                                 type="text"
@@ -118,7 +115,7 @@ const Products = () => {
 
                         <div className="flex items-center gap-4">
                             {/* Sort Dropdown */}
-                            {/* <select
+                             <select
                                 value={sortBy}
                                 onChange={(e) => setSortBy(e.target.value)}
                                 className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -126,10 +123,10 @@ const Products = () => {
                                 <option value="name">Sort by Name</option>
                                 <option value="price-low">Price: Low to High</option>
                                 <option value="price-high">Price: High to Low</option>
-                            </select> */}
+                            </select> 
 
                             {/* View Mode Toggle */}
-                            {/* <div className="flex bg-gray-100 rounded-lg p-1">
+                             <div className="flex bg-gray-100 rounded-lg p-1">
                                 <button
                                     onClick={() => setViewMode('grid')}
                                     className={`p-2 rounded-md transition-colors ${
@@ -137,8 +134,8 @@ const Products = () => {
                                             ? 'bg-white text-blue-600 shadow-sm' 
                                             : 'text-gray-500 hover:text-gray-700'
                                     }`}
-                                > */}
-                                    {/* <Grid3X3 className="w-5 h-5" />
+                                > 
+                                 <Grid3X3 className="w-5 h-5" />
                                 </button>
                                 <button
                                     onClick={() => setViewMode('list')}
@@ -147,13 +144,13 @@ const Products = () => {
                                             ? 'bg-white text-blue-600 shadow-sm' 
                                             : 'text-gray-500 hover:text-gray-700'
                                     }`}
-                                > */}
-                                    {/* <List className="w-5 h-5" /> 
-                                {/* </button> 
-                            {/* </div> 
+                                > 
+                                     <List className="w-5 h-5" /> 
+                                 </button> 
+                             </div> 
                          </div> 
                      </div> 
-                 </div> */} 
+                 </div> 
 
                 {/* Products Grid/List */}
                 {sortedProducts.length === 0 ? (

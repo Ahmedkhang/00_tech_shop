@@ -41,13 +41,9 @@ import {
 import Link from "next/link";
 
 interface ProductPageProps {
-    params: { slug: string }
+  params: Promise<{ slug: string }>;
 }
-type WatchSlug = {
-  slug: {
-    current: string;
-  };
-};
+
 
 async function getProduct(slug: string): Promise<Product_types | null> {
     return client.fetch(groq`*[_type == "laptops" && slug.current == $slug][0]{
@@ -70,16 +66,9 @@ async function getProduct(slug: string): Promise<Product_types | null> {
     )
 }
 
-// Generate static params for better performance
-export async function generateStaticParams() {
-    const watch:WatchSlug[] = await client.fetch(groq`*[_type == "laptops"]{ slug }`);
-    return watch.map((laptop: any) => ({
-        slug: laptop.slug.current,
-    }));
-}
 
 export default async function DynamicLaptops({ params }: ProductPageProps) {
-    const { slug } = params;
+    const { slug } = await params;
     const laptop = await getProduct(slug);
 
     if (!laptop) {
@@ -107,7 +96,6 @@ export default async function DynamicLaptops({ params }: ProductPageProps) {
                 </div>
 
                 {/* Product Specifications */}
-                <ProductSpecifications laptop={laptop} />
 
                 {/* Related Products */}
                 <RelatedProducts currentProductId={laptop.id} />
@@ -291,53 +279,44 @@ function ProductDetails({ laptop }: { laptop: Product_types }) {
     );
 }
 
-// Product Specifications Component
-function ProductSpecifications({ laptop }: { laptop: Product_types }) {
-    const specs = [
-        { label: "Processor", value: "Intel Core i7-11800H" },
-        { label: "Memory", value: "16GB DDR4" },
-        { label: "Storage", value: "512GB NVMe SSD" },
-        { label: "Display", value: "15.6\" Full HD (1920x1080)" },
-        { label: "Graphics", value: "NVIDIA GeForce RTX 3060" },
-        { label: "Operating System", value: "Windows 11 Home" },
-        { label: "Weight", value: "2.3 kg" },
-        { label: "Battery Life", value: "Up to 8 hours" }
-    ];
 
-    return (
-        <div className="mt-16">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Technical Specifications</h2>
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-                    {specs.map((spec, index) => (
-                        <div key={index} className="p-4 flex justify-between items-center">
-                            <span className="font-medium text-gray-900">{spec.label}</span>
-                            <span className="text-gray-600">{spec.value}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-    );
-}
 
 // Related Products Component
-function RelatedProducts({ currentProductId }: { currentProductId: string }) {
+async function RelatedProducts({ currentProductId }: { currentProductId: string }) {
+    // Fetch related products (e.g., same category, excluding current product)
+    const relatedProducts = await client.fetch(
+        groq`*[_type == "laptops" && _id != $currentProductId][0...4]{
+            id,
+            title,
+            slug,
+            image,
+            price
+        }`,
+        { currentProductId }
+    );
+
     return (
         <div className="mt-16">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">You might also like</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {/* This would typically fetch related products */}
-                {[1, 2, 3, 4].map((item) => (
-                    <div key={item} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group">
+                {relatedProducts.map((product: Product_types) => (
+                    <div
+                        key={product.id}
+                        className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow overflow-hidden group"
+                    >
                         <div className="relative h-48 bg-gray-200">
-                            <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                Related Product {item}
-                            </div>
+                            {product.image && (
+                                <Image
+                                    src={urlFor(product.image).url()}
+                                    alt={product.title}
+                                    fill
+                                    className="object-cover"
+                                />
+                            )}
                         </div>
                         <div className="p-4">
-                            <h3 className="font-semibold text-gray-900 mb-2">Related Laptop {item}</h3>
-                            <p className="text-blue-600 font-bold">$999</p>
+                            <h3 className="font-semibold text-gray-900 mb-2">{product.title}</h3>
+                            <p className="text-blue-600 font-bold">${product.price}</p>
                         </div>
                     </div>
                 ))}

@@ -51,10 +51,10 @@ const Navbar = () => {
     {isOpen &&(
       <div className='md:hidden w-screen flex justify-center items-center h-35 bg-[#0F172A] text-white'>
         <ul >
-            <li className='hover:text-[#22D3EE]'>Home</li>
-            <li className='hover:text-[#22D3EE]'>Products</li>
-            <li className='hover:text-[#22D3EE]'>Contact</li>
-            <li className='hover:text-[#22D3EE]'>About us</li>
+            <Link href='/'><li className='hover:text-[#22D3EE]'>Home</li></Link>
+           <Link href='/laptop'> <li className='hover:text-[#22D3EE]'>Products</li></Link>
+            <Link href='/contact'><li className='hover:text-[#22D3EE]'>Contact</li></Link>
+           <Link href='/about'> <li className='hover:text-[#22D3EE]'>About us</li></Link>
         </ul>
       </div>
     )}

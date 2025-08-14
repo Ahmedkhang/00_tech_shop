@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { ChevronLeft, ChevronRight, Laptop, Smartphone, Headphones, Watch, Monitor } from 'lucide-react';
 import { Banner } from '../../types';
 import Link from 'next/link';
@@ -68,27 +68,28 @@ const TechBannerSlider = () => {
     }
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % banners.length);
-  };
+  const nextSlide = useCallback(() => {
+  setCurrentSlide((prev) => (prev + 1) % banners.length);
+}, [banners.length]);
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + banners.length) % banners.length);
-  };
+  const prevSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev - 1) % banners.length)
+  },[banners.length])
 
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
 
   useEffect(() => {
-    if (!isAutoPlay) return;
+  if (!isAutoPlay) return;
 
-    const interval = setInterval(() => {
-      nextSlide();
-    }, 5000);
+  const interval = setInterval(() => {
+    nextSlide();
+  }, 5000);
 
-    return () => clearInterval(interval);
-  }, [isAutoPlay, currentSlide]);
+  return () => clearInterval(interval);
+}, [isAutoPlay, nextSlide]); 
+
 
   const getButtonClasses = (accent: string) => {
     const baseClasses = "px-8 py-4 rounded-full cursor-pointer font-semibold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-xl";

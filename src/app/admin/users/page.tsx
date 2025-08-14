@@ -1,15 +1,12 @@
-import { currentUser } from "@clerk/nextjs";
+export const dynamic = "force-dynamic";
+
 import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
 export default async function UsersPage() {
-  const user = await currentUser();
-
   return (
     <>
       <SignedIn>
-        <h1>Welcome, {user?.firstName}!</h1>
         <UserButton />
-        {/* Order history, wishlist, etc. */}
       </SignedIn>
 
       <SignedOut>

@@ -26,9 +26,8 @@ import { groq } from "next-sanity";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 // import { useCart } from "@/context/cartcontext";
-
 interface ProductPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 async function getProducts(slug: string): Promise<Product_types | null> {
@@ -48,7 +47,7 @@ async function getProducts(slug: string): Promise<Product_types | null> {
 }
 
 export default async function DynamicLaptops({ params }: ProductPageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const mobiles = await getProducts(slug);
   // const { addToCart } = useCart();
 
