@@ -3,6 +3,8 @@ import { getSalesByDate, getOrdersByStatus, getTopProducts } from '@/sanity/lib/
 import SalesCharts from '@/components/SalesCharts';
 import { CountUsers } from "@/lib/clerkClient"
 import { countLaptops, countMobiles, countProducts, LaptopStocks } from "@/sanity/lib/client"
+import { auth } from '@clerk/nextjs/server';
+import { redirect } from 'next/navigation';
 export default async function Dashboard(){
   const users:number =await CountUsers()
   const products : number = await countProducts() 
@@ -13,8 +15,12 @@ export default async function Dashboard(){
   const salesByDate = await getSalesByDate();
   const ordersByStatus = await getOrdersByStatus();
   const topProducts = await getTopProducts();
+  const { sessionClaims } = await auth()
+  if (!sessionClaims?.metadata?.role || sessionClaims.metadata.role !== 'admin') {
+    redirect('/')
+  }
 
-    return(
+  return(
       <>
       <h1 className='font-bold mb-5 text-2xl'>Welcome to Dashboard</h1>
       {/* <p>Here you can see the details of your site</p> */}
